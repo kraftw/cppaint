@@ -20,29 +20,48 @@ int main(int argc, char * argv[])
     sf::Sprite sprite(canvas.getTexture());
 
     // BRUSH SET-UP
-    const float DEFAULT_BRUSH_SIZE = 25;
+    const int HOVER_ALPHA = 16;
 
-    float brush_size = DEFAULT_BRUSH_SIZE;
+    float brush_size = 25;
 
-    sf::CircleShape brush_shape(DEFAULT_BRUSH_SIZE);
-    brush_shape.setOrigin({ DEFAULT_BRUSH_SIZE, DEFAULT_BRUSH_SIZE });
+    sf::CircleShape brush_shape(brush_size);
+    brush_shape.setOrigin({ brush_size, brush_size });
 
     sf::Vector2f last_pos;
     bool is_drawing = false;
 
     const std::vector<sf::Color> colors =
     {
-        sf::Color(255, 0,   0),    // RED
-        sf::Color(255, 160, 0),    // ORANGE
-        sf::Color(255, 255, 0),    // YELLOW
-        sf::Color(0,   0,   255),  // GREEN
-        sf::Color(0,   255, 0),    // BLUE
-        sf::Color(60,  0,   255),  // INDIGO
-        sf::Color(255, 0,   255),  // VIOLET
+        sf::Color(255, 0,   0),    // 0: RED
+        sf::Color(255, 160, 0),    // 1: ORANGE
+        sf::Color(255, 255, 0),    // 2: YELLOW
+        sf::Color(0,   0,   255),  // 3: GREEN
+        sf::Color(0,   255, 0),    // 4: BLUE
+        sf::Color(60,  0,   255),  // 5: INDIGO
+        sf::Color(255, 0,   255),  // 6: VIOLET
+        sf::Color(255, 0,   0,   HOVER_ALPHA), // 7:  RED    (HOVER)
+        sf::Color(255, 160, 0,   HOVER_ALPHA), // 8:  ORANGE (HOVER)
+        sf::Color(255, 255, 0,   HOVER_ALPHA), // 9:  YELLOW (HOVER)
+        sf::Color(0,   0,   255, HOVER_ALPHA), // 10: GREEN  (HOVER)
+        sf::Color(0,   255, 0,   HOVER_ALPHA), // 11: BLUE   (HOVER)
+        sf::Color(60,  0,   255, HOVER_ALPHA), // 12: INDIGO (HOVER)
+        sf::Color(255, 0,   255, HOVER_ALPHA), // 13: VIOLET (HOVER)
+    };
+
+    const std::vector<std::string> color_names =
+    {
+        "RED", "ORANGE", "YELLOW", "GREEN", "BLUE", "INDIGO", "VIOLET"
     };
 
     unsigned int color_index = 0;
     brush_shape.setFillColor(colors[color_index]);
+
+    // TEXT SET-UP
+    sf::Font font_lexend("fonts/Lexend-Regular.ttf");
+
+    sf::Text brush_info(font_lexend);
+    brush_info.setCharacterSize(24);
+    brush_info.setString("Brush Size: " + std::to_string((int)brush_size) + ", Color: " + color_names[color_index]);
 
     // MAIN LOOP
     while (window.isOpen())
@@ -78,6 +97,7 @@ int main(int argc, char * argv[])
             // CONTINUE DRAWING
             if (const auto* mouseMoved = event->getIf<sf::Event::MouseMoved>())
             {
+                // CONTINUE DRAWING
                 if (is_drawing)
                 {
                     const sf::Vector2f new_pos(window.mapPixelToCoords(sf::Vector2i({ mouseMoved->position.x, mouseMoved->position.y })));
@@ -106,6 +126,7 @@ int main(int argc, char * argv[])
                     brush_size += 2;
                     brush_shape.setRadius(brush_size);
                     brush_shape.setOrigin({ brush_size, brush_size });
+                    brush_info.setString("Brush Size: " + std::to_string((int)brush_size) + ", Color: " + color_names[color_index]);
                     break;
                     // DECREASE BRUSH SIZE
                 case sf::Mouse::Button::Extra1:
@@ -114,12 +135,14 @@ int main(int argc, char * argv[])
                         brush_size = 1;
                         brush_shape.setRadius(brush_size);
                         brush_shape.setOrigin({ brush_size, brush_size });
+                        brush_info.setString("Brush Size: " + std::to_string((int)brush_size) + ", Color: " + color_names[color_index]);
                     }
                     else
                     {
                         brush_size -= 2;
                         brush_shape.setRadius(brush_size);
                         brush_shape.setOrigin({ brush_size, brush_size });
+                        brush_info.setString("Brush Size: " + std::to_string((int)brush_size) + ", Color: " + color_names[color_index]);
                     }
                 }
             }
@@ -132,36 +155,43 @@ int main(int argc, char * argv[])
                 case sf::Keyboard::Scan::Num1:
                     color_index = 0;
                     brush_shape.setFillColor(colors[color_index]);
+                    brush_info.setString("Brush Size: " + std::to_string((int)brush_size) + ", Color: " + color_names[color_index]);
                     break;
                     // ORANGE
                 case sf::Keyboard::Scan::Num2:
                     color_index = 1;
                     brush_shape.setFillColor(colors[color_index]);
+                    brush_info.setString("Brush Size: " + std::to_string((int)brush_size) + ", Color: " + color_names[color_index]);
                     break;
                     // YELLOW
                 case sf::Keyboard::Scan::Num3:
                     color_index = 2;
                     brush_shape.setFillColor(colors[color_index]);
+                    brush_info.setString("Brush Size: " + std::to_string((int)brush_size) + ", Color: " + color_names[color_index]);
                     break;
                     // GREEN
                 case sf::Keyboard::Scan::Num4:
                     color_index = 3;
                     brush_shape.setFillColor(colors[color_index]);
+                    brush_info.setString("Brush Size: " + std::to_string((int)brush_size) + ", Color: " + color_names[color_index]);
                     break;
                     // BLUE
                 case sf::Keyboard::Scan::Num5:
                     color_index = 4;
                     brush_shape.setFillColor(colors[color_index]);
+                    brush_info.setString("Brush Size: " + std::to_string((int)brush_size) + ", Color: " + color_names[color_index]);
                     break;
                     // INDIGO
                 case sf::Keyboard::Scan::Num6:
                     color_index = 5;
                     brush_shape.setFillColor(colors[color_index]);
+                    brush_info.setString("Brush Size: " + std::to_string((int)brush_size) + ", Color: " + color_names[color_index]);
                     break;
                     // VIOLET
                 case sf::Keyboard::Scan::Num7:
                     color_index = 6;
                     brush_shape.setFillColor(colors[color_index]);
+                    brush_info.setString("Brush Size: " + std::to_string((int)brush_size) + ", Color: " + color_names[color_index]);
                     break;
                     // CLOSE WINDOW SHORTCUT (F8)
                 case sf::Keyboard::Scan::F8:
@@ -172,6 +202,7 @@ int main(int argc, char * argv[])
 
         window.clear(sf::Color(64, 64, 64));
         window.draw(sprite);
+        window.draw(brush_info);
         window.display();
     }
 
