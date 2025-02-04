@@ -22,6 +22,8 @@ int main(int argc, char * argv[])
     // BRUSH SET-UP
     const float DEFAULT_BRUSH_SIZE = 25;
 
+    float brush_size = DEFAULT_BRUSH_SIZE;
+
     sf::CircleShape brush_shape(DEFAULT_BRUSH_SIZE);
     brush_shape.setOrigin({ DEFAULT_BRUSH_SIZE, DEFAULT_BRUSH_SIZE });
 
@@ -52,7 +54,7 @@ int main(int argc, char * argv[])
             {
                 window.close();
             }
-            // RESIZING
+            // WINDOW RESIZING
             if (const auto* resized = event->getIf<sf::Event::Resized>())
             {
                 sf::View view(window.getView());
@@ -85,17 +87,40 @@ int main(int argc, char * argv[])
                     canvas.display();
                 }
             }
-            // STOP DRAWING + CLEAR
+            // STOP DRAWING + CLEAR + BRUSH RESIZING
             if (const auto* mouseButtonReleased = event->getIf<sf::Event::MouseButtonReleased>())
             {
-                if (mouseButtonReleased->button == sf::Mouse::Button::Left)
+                switch (mouseButtonReleased->button)
                 {
+                    // STOP DRAWING
+                case sf::Mouse::Button::Left:
                     is_drawing = false;
-                }
-                if (mouseButtonReleased->button == sf::Mouse::Button::Right)
-                {
+                    break;
+                    // CLEAR
+                case sf::Mouse::Button::Right:
                     canvas.clear(sf::Color::Black);
                     canvas.display();
+                    break;
+                    // INCREASE BRUSH SIZE
+                case sf::Mouse::Button::Extra2:
+                    brush_size += 2;
+                    brush_shape.setRadius(brush_size);
+                    brush_shape.setOrigin({ brush_size, brush_size });
+                    break;
+                    // DECREASE BRUSH SIZE
+                case sf::Mouse::Button::Extra1:
+                    if (brush_size - 2 <= 1)
+                    {
+                        brush_size = 1;
+                        brush_shape.setRadius(brush_size);
+                        brush_shape.setOrigin({ brush_size, brush_size });
+                    }
+                    else
+                    {
+                        brush_size -= 2;
+                        brush_shape.setRadius(brush_size);
+                        brush_shape.setOrigin({ brush_size, brush_size });
+                    }
                 }
             }
             // CHANGING BRUSH COLOR
