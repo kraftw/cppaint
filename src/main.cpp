@@ -48,7 +48,7 @@ int main(int argc, char * argv[])
     brush_shape.setFillColor(colors[color_index]);
 
     // TEXT SET-UP
-    sf::Font font_lexend("fonts/Lexend-Regular.ttf");
+    sf::Font font_lexend("../../../../fonts/Lexend-Regular.ttf");
 
     sf::Text brush_info(font_lexend);
     brush_info.setCharacterSize(24);
