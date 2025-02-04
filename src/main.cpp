@@ -20,8 +20,6 @@ int main(int argc, char * argv[])
     sf::Sprite sprite(canvas.getTexture());
 
     // BRUSH SET-UP
-    const int HOVER_ALPHA = 16;
-
     float brush_size = 25;
 
     sf::CircleShape brush_shape(brush_size);
@@ -39,13 +37,6 @@ int main(int argc, char * argv[])
         sf::Color(0,   255, 0),    // 4: BLUE
         sf::Color(60,  0,   255),  // 5: INDIGO
         sf::Color(255, 0,   255),  // 6: VIOLET
-        sf::Color(255, 0,   0,   HOVER_ALPHA), // 7:  RED    (HOVER)
-        sf::Color(255, 160, 0,   HOVER_ALPHA), // 8:  ORANGE (HOVER)
-        sf::Color(255, 255, 0,   HOVER_ALPHA), // 9:  YELLOW (HOVER)
-        sf::Color(0,   0,   255, HOVER_ALPHA), // 10: GREEN  (HOVER)
-        sf::Color(0,   255, 0,   HOVER_ALPHA), // 11: BLUE   (HOVER)
-        sf::Color(60,  0,   255, HOVER_ALPHA), // 12: INDIGO (HOVER)
-        sf::Color(255, 0,   255, HOVER_ALPHA), // 13: VIOLET (HOVER)
     };
 
     const std::vector<std::string> color_names =
